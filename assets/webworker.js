@@ -1,7 +1,6 @@
 "use strict";
 import {loadPyodide} from "https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.mjs";
-const requiredPackages = ["numpy", "pandas", "micropip"];
-const pyodide = loadPyodide({packages: requiredPackages});
+const pyodide = loadPyodide({packages: ["numpy", "pandas", "micropip"]});
 
 onmessage = async function(event) {
 	const {id, python, ...context} = event.data;
