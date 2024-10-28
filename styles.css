@@ -890,6 +890,10 @@ input:not(:checked) ~ .radio-file {
 	font-weight: 600;
 }
 
+.lead > .tooltip a {
+	text-decoration: underline;
+}
+
 .lead:hover > .tooltip {
 	visibility: visible;
 }
