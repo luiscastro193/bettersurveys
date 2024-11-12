@@ -57,8 +57,8 @@ def harmonized_variables(sample1, sample2, weights_var = None):
 	
 	return vars_info
 
-def to_json(series):
-	return json.loads(series.to_json(orient = 'split', force_ascii = False, date_format = 'iso', date_unit = 's', double_precision = 15))
+def to_json(data):
+	return json.loads(data.to_json(orient = 'split', force_ascii = False, date_format = 'iso', date_unit = 's', double_precision = 15))
 
 def serialize(details):
 	details = to_json(details)
@@ -147,3 +147,40 @@ def prepare_calibration(sample, population_totals, weights_var = None):
 	sample = pd.get_dummies(sample, columns = dummy_columns, prefix_sep = prefix_sep)
 	if weights_var is not None: sample[weights_var] = weights
 	return sample, pd.Series(my_totals, copy = False)
+
+def single_estimation(series, weights):
+	import inps
+	interval = inps.confidence_interval(series, weights)
+	return {
+		'estimation': inps.estimation(series, weights),
+		'interval_lower': interval[0],
+		'interval_upper': interval[1]
+	}
+
+def estimation(sample, target_var, weights_var = None, method = None, p_sample = None, covariates = None, p_weights_var = None):
+	import inps
+	
+	sample = sample.dropna(subset = [target_var] if weights_var is None else [target_var, weights_var])
+	numeric = is_numeric(sample[target_var])
+	weights = None if weights_var is None else sample[weights_var]
+	
+	if method is None:
+		values = sample[target_var]
+	else:
+		if p_weights_var is not None: p_sample = p_sample.dropna(subset = [p_weights_var])
+		model = None
+		if method == "boosting": model = inps.boosting_regressor() if numeric else inps.boosting_classifier()
+		values = inps.matching_values(sample, p_sample, target_var, covariates = covariates, model = model, training_weight = weights)["p"]
+		weights = None if p_weights_var is None else p_sample[p_weights_var]
+	
+	if numeric:
+		return {key: curate(value) for key, value in single_estimation(values, weights).items()}
+	else:
+		if isinstance(values, dict):
+			my_estimation = pd.DataFrame((single_estimation(probs, weights) for probs in values["probs"].T), index = values["categories"])
+		else:
+			categories = values.unique()
+			my_estimation = pd.DataFrame((single_estimation(values == category, weights) for category in categories), index = categories)
+		
+		my_estimation.sort_values('estimation', ascending = False, inplace = True)
+		return to_json(my_estimation)
