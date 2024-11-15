@@ -1,57 +1,12 @@
 <!doctype html>
-<html lang="es">
+<html>
 <head>
 	<meta charset="utf-8">
 	<title>Better surveys</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="favicon.svg" type="image/svg+xml">
-	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="styles.css">
-	<link rel="preload" href="assets/texts.json" as="fetch" crossorigin>
-	<script src="build.js" type="module"></script>
-	<link rel="modulepreload" href="assets/pyodide/pyodide.mjs">
-	<script type="module" src="https://luiscastro193.github.io/svg-inliner/svg-inliner.js" async></script>
-	<script type="module" src="https://luiscastro193.github.io/stats.js" async></script>
 </head>
 <body>
-	<div class="main-container">
-		<header>
-			<section class="main-header-logos">
-				<img src="images/logo_EASP.svg" alt="Escuela Andaluza de Salud Pública"/>
-				<div class="header-divider"></div>
-				<img src="images/logo_UGR.svg" alt="Universidad de Granada"/>
-			</section>
-			<a class="user-header" style="visibility: hidden">
-				<div class="header-divider"></div>
-				<img class="header-avatar" src="images/default-avatar.svg"/>
-				<article class="header-username">
-					<span>Usuario</span>
-					<span>Iniciar sesión</span>
-				</article>
-			</a>
-		</header>
-		<main>
-			<dialog class="modal loading" oncancel="event.preventDefault()" onclose="this.showModal()">
-				<img src="images/loading.svg"/>
-				<p>Cargando</p>
-				<p>Espere un momento mientras preparamos aplicación</p>
-			</dialog>
-			<script>document.querySelector('dialog').showModal()</script>
-		</main>
-		<footer>
-			<section class="footer-sponsors">
-				<span>Escuela Andaluza de Salud Pública</span>
-				<div class="header-divider"></div>
-				<span>Universidad de Granada</span>
-			</section>
-			<section class="footer-links">
-				<a href="https://www.google.com/" target="_blank" rel="noopener">Aviso legal</a>
-				<div class="header-divider"></div>
-				<a href="https://www.google.com/" target="_blank" rel="noopener">Política de privacidad</a>
-				<div class="header-divider"></div>
-				<a href="https://www.google.com/" target="_blank" rel="noopener">Condiciones legales</a>
-			</section>
-		</footer>
-	</div>
+	<script>location.replace("https://bettersurveys.org/")</script>
+	<a href="https://bettersurveys.org/">https://bettersurveys.org/</a>
 </body>
 </html>
